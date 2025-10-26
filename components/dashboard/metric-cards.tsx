@@ -61,7 +61,7 @@ function MetricCard({
 
         return () => clearInterval(interval);
       } else {
-        setAnimatedValue(value);
+        setAnimatedValue(typeof value === 'number' ? value : 0);
       }
     }
   }, [isVisible, value]);

@@ -337,8 +337,8 @@ export function useIntersectionAnimation(
 
 // Performance-optimized animation hook
 export function useAnimationFrame(callback: () => void) {
-  const requestRef = React.useRef<number>();
-  const previousTimeRef = React.useRef<number>();
+  const requestRef = React.useRef<number | undefined>(undefined);
+  const previousTimeRef = React.useRef<number | undefined>(undefined);
 
   const animate = React.useCallback(
     (time: number) => {
