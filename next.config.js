@@ -10,6 +10,12 @@ const nextConfig = {
       },
     ],
   },
+  // Ensure static files are properly served
+  trailingSlash: false,
+  // Optimize static file serving
+  experimental: {
+    optimizePackageImports: ['lucide-react'],
+  },
 }
 
 module.exports = nextConfig
