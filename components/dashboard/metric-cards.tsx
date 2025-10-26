@@ -4,6 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { TrendingUp, TrendingDown } from "lucide-react";
 import { colors, typography, borderRadius } from "@/lib/design-tokens";
 import { useTheme } from "@/lib/theme-context";
+import { animations, createStaggerAnimation } from "@/lib/animations";
+import { useState, useEffect } from "react";
 
 interface MetricCardProps {
   title: string;
@@ -20,10 +22,49 @@ function MetricCard({
   value,
   change,
   backgroundColor,
-}: MetricCardProps) {
+  index,
+}: MetricCardProps & { index: number }) {
   const { theme } = useTheme();
   const TrendIcon = change.isPositive ? TrendingUp : TrendingDown;
   const textColors = colors.getText(theme);
+  const [isVisible, setIsVisible] = useState(false);
+  const [animatedValue, setAnimatedValue] = useState(0);
+
+  useEffect(() => {
+    // Stagger the animation based on index
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, index * 100);
+
+    return () => clearTimeout(timer);
+  }, [index]);
+
+  useEffect(() => {
+    if (isVisible) {
+      // Animate the value if it's a number
+      const numericValue = typeof value === 'string' ? parseFloat(value.replace(/[^0-9.-]/g, '')) : value;
+      if (!isNaN(numericValue)) {
+        const duration = 1000;
+        const steps = 60;
+        const stepValue = numericValue / steps;
+        let currentStep = 0;
+
+        const interval = setInterval(() => {
+          currentStep++;
+          setAnimatedValue(stepValue * currentStep);
+          
+          if (currentStep >= steps) {
+            setAnimatedValue(numericValue);
+            clearInterval(interval);
+          }
+        }, duration / steps);
+
+        return () => clearInterval(interval);
+      } else {
+        setAnimatedValue(value);
+      }
+    }
+  }, [isVisible, value]);
 
   const isLightBackground =
     backgroundColor === colors.background.blue ||
@@ -40,14 +81,27 @@ function MetricCard({
     ? colors.text.secondary
     : textColors.secondary;
 
+  const displayValue = typeof value === 'string' && value.includes('$') 
+    ? `$${animatedValue.toFixed(0)}`
+    : typeof value === 'string' && value.includes('%')
+    ? `${animatedValue.toFixed(1)}%`
+    : typeof value === 'string' && value.includes(',')
+    ? animatedValue.toLocaleString()
+    : animatedValue;
+
   return (
     <Card
-      className="shadow-none border-none rounded-2xl"
-      style={{ backgroundColor }}
+      className={`shadow-none border-none rounded-2xl transition-all duration-500 ease-out hover:scale-105 hover:shadow-lg ${
+        isVisible ? 'animate-in fade-in-0 slide-in-from-bottom-4' : 'opacity-0'
+      }`}
+      style={{ 
+        backgroundColor,
+        transitionDelay: `${index * 100}ms`
+      }}
     >
       <CardHeader className="pb-2 sm:pb-3">
         <CardTitle
-          className="font-medium text-xs sm:text-sm"
+          className="font-medium text-xs sm:text-sm transition-colors duration-300"
           style={{
             color: titleColor,
           }}
@@ -58,19 +112,22 @@ function MetricCard({
       <CardContent>
         <div className="flex items-end justify-between">
           <div
-            className="font-semibold text-xl sm:text-2xl lg:text-3xl"
+            className="font-semibold text-xl sm:text-2xl lg:text-3xl transition-all duration-300"
             style={{
               color: valueColor,
             }}
           >
-            {value}
+            {displayValue}
           </div>
           <div
-            className="flex items-center gap-1 text-xs sm:text-sm"
-            style={{ color: changeColor }}
+            className={`flex items-center gap-1 text-xs sm:text-sm transition-all duration-300 ${
+              change.isPositive ? 'text-green-500' : 'text-red-500'
+            }`}
           >
-            <TrendIcon className="w-3 h-3 sm:w-4 sm:h-4" />
-            <span>{change.value}</span>
+            <TrendIcon className={`w-3 h-3 sm:w-4 sm:h-4 transition-transform duration-300 ${
+              change.isPositive ? 'hover:scale-110' : 'hover:scale-110'
+            }`} />
+            <span className="font-medium">{change.value}</span>
           </div>
         </div>
       </CardContent>
@@ -130,6 +187,7 @@ export function MetricCards({ className = "" }: MetricCardsProps) {
           value={metric.value}
           change={metric.change}
           backgroundColor={metric.backgroundColor}
+          index={index}
         />
       ))}
     </div>

@@ -12,6 +12,8 @@ import {
 } from "recharts";
 import { colors, typography } from "@/lib/design-tokens";
 import { useTheme } from "@/lib/theme-context";
+import { animations } from "@/lib/animations";
+import { useState, useEffect } from "react";
 
 interface RevenueData {
   month: string;
@@ -90,10 +92,21 @@ export function RevenueChart({ className = "" }: RevenueChartProps) {
   const bgColors = colors.getBackground(theme);
   const borderColors = colors.getBorder(theme);
   const chartColors = colors.getChart(theme);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <Card
-      className={`border-none shadow-none rounded-2xl h-full w-full ${className}`}
+      className={`border-none shadow-none rounded-2xl h-full w-full transition-all duration-500 hover:shadow-lg hover:scale-105 ${
+        isVisible ? 'animate-fade-in-up' : 'opacity-0'
+      } ${className}`}
       style={{
         backgroundColor:
           theme === "dark"

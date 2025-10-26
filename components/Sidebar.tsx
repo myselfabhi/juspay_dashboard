@@ -8,6 +8,7 @@ import { useSidebar } from "./Header";
 import { colors } from "@/lib/design-tokens";
 import { useTheme } from "@/lib/theme-context";
 import { DefaultIcon, EcomIcon, ProjectsIcon, OnlineCourseIcon } from "./Icon";
+import { animations } from "@/lib/animations";
 
 interface IconProps {
   className?: string;
@@ -169,7 +170,7 @@ function GroupItem({
           hasChildren ? onToggle : () => onSelectLeaf(item.key, item.href)
         }
         aria-expanded={hasChildren ? expanded : undefined}
-        className={`group w-full flex items-center rounded-[10px] px-2 py-2 text-sm transition relative ${
+        className={`group w-full flex items-center rounded-[10px] px-2 py-2 text-sm transition-all duration-300 ease-out hover:scale-105 hover:shadow-md relative ${
           hasChildren ? "justify-between" : "justify-start"
         }`}
         style={{
@@ -192,8 +193,8 @@ function GroupItem({
         }}
       >
         {isActive && (
-          <div className="absolute left-0 top-1/2 -translate-y-1/2">
-            <svg width="4" height="16" viewBox="0 0 4 16" fill="none">
+          <div className="absolute left-0 top-1/2 -translate-y-1/2 animate-slide-in-left">
+            <svg width="4" height="16" viewBox="0 0 4 16" fill="none" className="animate-glow">
               <path
                 d="M0 2C0 0.895431 0.895431 0 2 0C3.10457 0 4 0.895431 4 2V14C4 15.1046 3.10457 16 2 16C0.895431 16 0 15.1046 0 14V2Z"
                 fill={textColors.primary}
@@ -218,8 +219,8 @@ function GroupItem({
       </button>
 
       <div
-        className={`overflow-hidden pl-6 ${
-          expanded ? "max-h-96 py-1" : "max-h-0"
+        className={`overflow-hidden pl-6 transition-all duration-300 ease-out ${
+          expanded ? "max-h-96 py-1 animate-fade-in-down" : "max-h-0"
         }`}
       >
         {item.children?.map((leaf) => {
