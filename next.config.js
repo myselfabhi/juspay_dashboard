@@ -9,6 +9,8 @@ const nextConfig = {
         pathname: '/**',
       },
     ],
+    // Enable unoptimized images for static assets
+    unoptimized: true,
   },
   // Ensure static files are properly served
   trailingSlash: false,

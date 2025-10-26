@@ -1,6 +1,6 @@
-# Don't ignore public directory
-!public/
-!public/icons/
-!public/users/
-!public/*.png
-!public/*.svg
+# Include all files except node_modules and build artifacts
+node_modules
+.next
+.git
+*.log
+.DS_Store
