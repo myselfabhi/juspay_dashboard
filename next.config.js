@@ -9,8 +9,10 @@ const nextConfig = {
         pathname: '/**',
       },
     ],
-    // Enable unoptimized images for static assets
+    // Disable image optimization for static assets
     unoptimized: true,
+    // Allow all domains
+    domains: [],
   },
   // Ensure static files are properly served
   trailingSlash: false,
@@ -18,6 +20,8 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ['lucide-react'],
   },
+  // Ensure public directory is included
+  assetPrefix: '',
 }
 
 module.exports = nextConfig

@@ -5,7 +5,6 @@
  * Handles professional icon management with precise styling
  */
 import React from 'react';
-import Image from 'next/image';
 
 interface IconProps {
   name: 'plus' | 'filter' | 'sort' | 'search';
@@ -16,13 +15,13 @@ export const IconComponent: React.FC<IconProps> = ({ name, className = '' }) => 
   const getIcon = (iconName: string) => {
     switch (iconName) {
       case 'plus':
-        return <Image src="/icons/add.svg" alt="Plus" width={12} height={12} className="w-[12.5px] h-[12.5px]" />;
+        return <img src="/icons/add.svg" alt="Plus" className="w-[12.5px] h-[12.5px]" />;
       case 'filter':
-        return <Image src="/icons/filter.svg" alt="Filter" width={12} height={12} className="w-[12.5px] h-[12.5px]" />;
+        return <img src="/icons/filter.svg" alt="Filter" className="w-[12.5px] h-[12.5px]" />;
       case 'sort':
-        return <Image src="/icons/arrowdown.svg" alt="Sort" width={12} height={12} className="w-[12.5px] h-[12.5px]" />;
+        return <img src="/icons/arrowdown.svg" alt="Sort" className="w-[12.5px] h-[12.5px]" />;
       case 'search':
-        return <Image src="/icons/bell.svg" alt="Search" width={12} height={12} className="w-[12.5px] h-[12.5px]" />;
+        return <img src="/icons/bell.svg" alt="Search" className="w-[12.5px] h-[12.5px]" />;
       default:
         return null;
     }

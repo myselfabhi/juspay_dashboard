@@ -1,25 +1,5 @@
 {
-  "buildCommand": "npm run build",
-  "outputDirectory": ".next",
-  "installCommand": "npm install",
   "framework": "nextjs",
-  "functions": {
-    "app/**/*.tsx": {
-      "runtime": "nodejs18.x"
-    }
-  },
-  "rewrites": [
-    {
-      "source": "/icons/(.*)",
-      "destination": "/icons/$1"
-    },
-    {
-      "source": "/users/(.*)",
-      "destination": "/users/$1"
-    },
-    {
-      "source": "/(.*\\.(png|jpg|jpeg|gif|svg|ico))",
-      "destination": "/$1"
-    }
-  ]
+  "buildCommand": "npm run build",
+  "installCommand": "npm install"
 }
