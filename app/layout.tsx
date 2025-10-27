@@ -10,19 +10,10 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Juspay Dashboard - Abhinav Verma",
+  title: "UI Developer Assignment - Dashboard",
   description:
-    "A modern Next.js dashboard application for Juspay with Order List management and eCommerce analytics. Built by Abhinav Verma with TypeScript, Tailwind CSS, and advanced UI components.",
-  keywords: ["nextjs", "dashboard", "tailwindcss", "react", "typescript", "juspay", "abhinav verma"],
-  authors: [{ name: "Abhinav Verma" }],
+    "A responsive dashboard application built for UI Developer Assignment with modern design and mobile-first approach",
   viewport: "width=device-width, initial-scale=1",
-  openGraph: {
-    title: "Juspay Dashboard - Abhinav Verma",
-    description: "Modern Next.js dashboard with Order List management and eCommerce analytics",
-    url: "https://github.com/myselfabhi/Juspay-assignment",
-    siteName: "Juspay Dashboard",
-    type: "website",
-  },
 };
 
 export default function RootLayout({

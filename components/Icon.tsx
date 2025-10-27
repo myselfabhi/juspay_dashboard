@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useTheme } from "@/lib/theme-context";
 import { colors } from "@/lib/design-tokens";
 
@@ -50,7 +51,7 @@ export function Icon({
   }
 
   return (
-    <img
+    <Image
       src={iconPath}
       alt={name}
       width={size}
