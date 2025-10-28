@@ -7,6 +7,7 @@ import { User, Building2, FileText, Users, ChevronRight } from "lucide-react";
 import { useSidebar } from "./Header";
 import { colors } from "@/lib/design-tokens";
 import { useTheme } from "@/lib/theme-context";
+import { animations } from "@/lib/animations";
 import { DefaultIcon, EcomIcon, ProjectsIcon, OnlineCourseIcon } from "./Icon";
 
 interface IconProps {
@@ -169,7 +170,7 @@ function GroupItem({
           hasChildren ? onToggle : () => onSelectLeaf(item.key, item.href)
         }
         aria-expanded={hasChildren ? expanded : undefined}
-        className={`group w-full flex items-center rounded-[10px] px-2 py-2 text-sm transition relative ${
+        className={`group w-full flex items-center rounded-[10px] px-2 py-2 text-sm transition-all duration-300 ease-out relative ${animations.hoverLift} ${
           hasChildren ? "justify-between" : "justify-start"
         }`}
         style={{
@@ -212,7 +213,7 @@ function GroupItem({
               }}
             />
           )}
-          {Icon ? <Icon size={16} className="h-4 w-4 shrink-0" /> : null}
+          {Icon ? <Icon size={16} className={`h-4 w-4 shrink-0 ${animations.iconHover}`} /> : null}
           <span>{item.label}</span>
         </span>
       </button>
@@ -311,21 +312,21 @@ export function Sidebar() {
       <aside
         className={`${
           isCollapsed ? "w-0 lg:w-0" : "w-64 lg:w-64"
-        } fixed lg:relative top-0 left-0 h-full border-r flex flex-col transition-all duration-300 overflow-hidden z-50 lg:z-auto`}
+        } fixed lg:relative top-0 left-0 h-full border-r flex flex-col transition-all duration-500 ease-out overflow-hidden z-50 lg:z-auto ${animations.slideInLeft}`}
         style={{
           backgroundColor:
             theme === "dark" ? colors.background.dark : "#FFFFFF",
           borderColor: borderColors.light,
         }}
       >
-        <div className="px-4 pt-4">
+        <div className={`px-4 pt-4 ${animations.fadeInDown}`}>
           <div className="flex items-center gap-2">
             <Image
               src="/user.png"
               alt="User"
               width={1000}
               height={1000}
-              className="rounded-full h-6 w-6"
+              className={`rounded-full h-6 w-6 ${animations.hoverLift}`}
             />
             <span
               className="font-medium text-[14px]"

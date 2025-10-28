@@ -5,6 +5,7 @@ import { Search } from "lucide-react";
 import { useState, createContext, useContext, useEffect } from "react";
 import { colors } from "@/lib/design-tokens";
 import { useTheme } from "@/lib/theme-context";
+import { ClientOnly } from "./ClientOnly";
 import {
   CollapsableIcon,
   StarIcon,
@@ -274,42 +275,59 @@ export function Header({ breadcrumbs, title }: HeaderProps) {
                   style={{ color: textColors.muted }}
                 />
               </button>
-              <button
-                onClick={toggleTheme}
-                className="p-2 rounded-md transition-all duration-200 hidden sm:block relative overflow-hidden"
-                style={{ backgroundColor: "transparent" }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.backgroundColor = bgColors.hover)
+              <ClientOnly
+                fallback={
+                  <button
+                    className="p-2 rounded-md transition-all duration-200 hidden sm:block relative overflow-hidden"
+                    style={{ backgroundColor: "transparent" }}
+                    aria-label="Theme toggle"
+                  >
+                    <div className="relative">
+                      <SunIcon
+                        size={20}
+                        className="transition-transform duration-200 hover:rotate-180"
+                      />
+                    </div>
+                  </button>
                 }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.backgroundColor = "transparent")
-                }
-                aria-label={`Switch to ${
-                  theme === "light" ? "dark" : "light"
-                } theme`}
               >
-                <div className="relative">
-                  {theme === "light" ? (
-                    <SunIcon
-                      size={20}
-                      className="transition-transform duration-200 hover:rotate-180"
-                    />
-                  ) : (
-                    <svg
-                      width={20}
-                      height={20}
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                      style={{ color: textColors.primary }}
-                      className="transition-transform duration-200 hover:rotate-12"
-                    >
-                      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-                    </svg>
-                  )}
-                </div>
-              </button>
+                <button
+                  onClick={toggleTheme}
+                  className="p-2 rounded-md transition-all duration-200 hidden sm:block relative overflow-hidden"
+                  style={{ backgroundColor: "transparent" }}
+                  onMouseEnter={(e) =>
+                    (e.currentTarget.style.backgroundColor = bgColors.hover)
+                  }
+                  onMouseLeave={(e) =>
+                    (e.currentTarget.style.backgroundColor = "transparent")
+                  }
+                  aria-label={`Switch to ${
+                    theme === "light" ? "dark" : "light"
+                  } theme`}
+                >
+                  <div className="relative">
+                    {theme === "light" ? (
+                      <SunIcon
+                        size={20}
+                        className="transition-transform duration-200 hover:rotate-180"
+                      />
+                    ) : (
+                      <svg
+                        width={20}
+                        height={20}
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                        style={{ color: textColors.primary }}
+                        className="transition-transform duration-200 hover:rotate-12"
+                      >
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                      </svg>
+                    )}
+                  </div>
+                </button>
+              </ClientOnly>
               <button
                 className="p-2 rounded-md transition-colors hidden sm:block"
                 style={{ backgroundColor: "transparent" }}

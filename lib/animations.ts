@@ -76,6 +76,9 @@ export const animations = {
 
   // Stagger animations
   staggerChildren: 'animate-in fade-in-0 slide-in-from-bottom-4 duration-500',
+  
+  // Count-up animation
+  animateCountUp: 'animate-count-up',
 } as const;
 
 // Stagger animation utility
@@ -293,7 +296,7 @@ export const animationPresets = {
 
 // Utility function to create staggered animations
 export function createStaggeredAnimation(
-  items: any[],
+  items: unknown[],
   baseDelay: number = 100,
   animationClass: string = 'animate-fade-in-up'
 ) {
@@ -339,27 +342,30 @@ export function useIntersectionAnimation(
 export function useAnimationFrame(callback: () => void) {
   const requestRef = React.useRef<number | undefined>(undefined);
   const previousTimeRef = React.useRef<number | undefined>(undefined);
+  const callbackRef = React.useRef(callback);
 
-  const animate = React.useCallback(
-    (time: number) => {
+  // Update callback ref when callback changes
+  React.useEffect(() => {
+    callbackRef.current = callback;
+  }, [callback]);
+
+  React.useEffect(() => {
+    const animate = (time: number) => {
       if (previousTimeRef.current !== undefined) {
-        const deltaTime = time - previousTimeRef.current;
-        callback();
+        callbackRef.current();
       }
       previousTimeRef.current = time;
       requestRef.current = requestAnimationFrame(animate);
-    },
-    [callback]
-  );
+    };
 
-  React.useEffect(() => {
     requestRef.current = requestAnimationFrame(animate);
+    
     return () => {
       if (requestRef.current) {
         cancelAnimationFrame(requestRef.current);
       }
     };
-  }, [animate]);
+  }, []); // Empty dependency array since we use refs
 }
 
 // Export React for the hooks

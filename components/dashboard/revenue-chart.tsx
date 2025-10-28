@@ -12,6 +12,7 @@ import {
 } from "recharts";
 import { colors, typography } from "@/lib/design-tokens";
 import { useTheme } from "@/lib/theme-context";
+import { animations } from "@/lib/animations";
 
 interface RevenueData {
   month: string;
@@ -93,7 +94,7 @@ export function RevenueChart({ className = "" }: RevenueChartProps) {
 
   return (
     <Card
-      className={`border-none shadow-none rounded-2xl h-full w-full ${className}`}
+      className={`border-none shadow-none rounded-2xl h-full w-full ${animations.cardHover} ${animations.fadeInUp} ${className}`}
       style={{
         backgroundColor:
           theme === "dark"
@@ -146,11 +147,12 @@ export function RevenueChart({ className = "" }: RevenueChartProps) {
         </div>
       </CardHeader>
       <CardContent className="pt-0">
-        <ResponsiveContainer width="100%" height={200}>
-          <LineChart
-            data={revenueData}
-            margin={{ top: 5, right: 10, left: 0, bottom: 5 }}
-          >
+        <div className={`${animations.fadeInUp}`} style={{ animationDelay: '300ms' }}>
+          <ResponsiveContainer width="100%" height={200}>
+            <LineChart
+              data={revenueData}
+              margin={{ top: 5, right: 10, left: 0, bottom: 5 }}
+            >
             <CartesianGrid
               strokeDasharray="3 3"
               stroke={borderColors.light}
@@ -183,6 +185,8 @@ export function RevenueChart({ className = "" }: RevenueChartProps) {
               strokeWidth={2}
               dot={false}
               name="Current Week"
+              animationDuration={1000}
+              animationEasing="ease-out"
             />
             <Line
               type="natural"
@@ -192,9 +196,12 @@ export function RevenueChart({ className = "" }: RevenueChartProps) {
               strokeDasharray="5 5"
               dot={false}
               name="Previous Week"
+              animationDuration={1200}
+              animationEasing="ease-out"
             />
           </LineChart>
         </ResponsiveContainer>
+        </div>
       </CardContent>
     </Card>
   );

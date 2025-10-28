@@ -12,6 +12,7 @@ import {
 } from "recharts";
 import { colors, typography } from "@/lib/design-tokens";
 import { useTheme } from "@/lib/theme-context";
+import { animations } from "@/lib/animations";
 
 interface ProjectionData {
   month: string;
@@ -93,7 +94,7 @@ export function ProjectionsChart({ className = "" }: ProjectionsChartProps) {
   const chartColors = colors.getChart(theme);
   return (
     <Card
-      className={`border-none shadow-none h-full ${className}`}
+      className={`border-none shadow-none h-full ${animations.cardHover} ${animations.fadeInUp} ${className}`}
       style={{
         backgroundColor:
           theme === "dark"
